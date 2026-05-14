@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+
+@theme {
+    /* Default Font Sans */
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Base Colors */
+    --color-base: #FFFFFF;
+    --color-surface: #FAFAF8;
+    --color-surface-alt: #F5F3EE;
+
+    /* Brand Colors - Warm Natural Tones */
+    --color-primary: #C8763A;
+    /* Warm amber/fried golden */
+    --color-primary-light: #E8A96A;
+    /* Lighter golden */
+    --color-primary-dark: #A05A28;
+    /* Deep warm brown */
+
+    --color-secondary: #5C7A4E;
+    /* Earthy herb green */
+    --color-secondary-light: #7FA36E;
+    --color-secondary-dark: #3F5835;
+
+    --color-accent: #D4A84B;
+    /* Warm gold accent */
+
+    /* Neutral / Text */
+    --color-text: #2C2416;
+    /* Deep warm brown-black */
+    --color-text-muted: #7A6A55;
+    /* Soft warm gray */
+    --color-text-light: #AFA090;
+
+    /* Border */
+    --color-border: #E8E0D4;
+    --color-border-dark: #C8BC9E;
+
+    /* Footer */
+    --color-footer-bg: #2C2416;
+    --color-footer-text: #D4C8B0;
+
+}
