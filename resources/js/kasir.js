@@ -360,17 +360,76 @@ function tutupModal() {
 // ============================================================
 
 function filterProduk() {
-    const keyword = (document.getElementById('input-search')?.value || '').toLowerCase().trim();
-    const aktifBtn = document.querySelector('#filter-kategori .filter-btn.bg-slate-700');
+    const keyword = (document.getElementById('input-search')?.value || '')
+        .toLowerCase()
+        .trim();
+
+    // ambil tombol kategori yang aktif
+    const aktifBtn = document.querySelector(
+        '#filter-kategori .filter-btn.bg-primary'
+    );
+
     const kategori = aktifBtn?.dataset.kategori || 'semua';
 
     document.querySelectorAll('#grid-produk .add-to-cart-btn').forEach(card => {
-        const namaOk = card.dataset.name.toLowerCase().includes(keyword);
-        const katOk = kategori === 'semua' ||
-            (card.dataset.kategori || '').toLowerCase() === kategori.toLowerCase();
+
+        // filter nama produk
+        const namaProduk = (card.dataset.name || '').toLowerCase();
+
+        // filter kategori
+        const kategoriProduk = (card.dataset.category || '').toLowerCase();
+
+        const namaOk = namaProduk.includes(keyword);
+
+        const katOk =
+            kategori === 'semua' ||
+            kategoriProduk === kategori.toLowerCase();
+
         card.style.display = namaOk && katOk ? '' : 'none';
     });
 }
+
+// ===============================
+// EVENT SEARCH
+// ===============================
+document.getElementById('input-search')?.addEventListener('input', filterProduk);
+
+// ===============================
+// EVENT FILTER KATEGORI
+// ===============================
+document.querySelectorAll('#filter-kategori .filter-btn').forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+        // reset semua tombol
+        document.querySelectorAll('#filter-kategori .filter-btn').forEach(b => {
+
+            b.classList.remove(
+                'bg-primary',
+                'text-white'
+            );
+
+            b.classList.add(
+                'bg-white',
+                'text-text-muted'
+            );
+        });
+
+        // aktifkan tombol yang dipilih
+        btn.classList.remove(
+            'bg-white',
+            'text-text-muted'
+        );
+
+        btn.classList.add(
+            'bg-primary',
+            'text-white'
+        );
+
+        // jalankan filter
+        filterProduk();
+    });
+});
 
 // ============================================================
 //  INIT — DOMContentLoaded

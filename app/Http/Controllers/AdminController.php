@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use App\models\Produk;
+use App\models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -13,8 +14,11 @@ class AdminController extends Controller
     // halama dasboard
     public function index()
     {
+        $transaksis = Transaksi::with(['detailTransaksi.produk'])->latest('created_at')->get();
 
-        return view('admin.dashboard');
+        // dd($transaksi);
+
+        return view('admin.dashboard', compact('transaksis'));
     }
 
     public function kategori()

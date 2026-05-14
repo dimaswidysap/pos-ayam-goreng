@@ -12,9 +12,7 @@
         </div>
     </div>
 
-    <div class="absolute left-1/2 -translate-x-1/2">
-        <h1 class="text-white font-bold text-xl tracking-tight">Ayam Goreng <span class="text-primary">Widy</span></h1>
-    </div>
+
 
     <a href='{{ route('home') }}'>
         {{-- @csrf --}}

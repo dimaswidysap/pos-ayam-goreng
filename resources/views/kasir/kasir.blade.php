@@ -26,11 +26,12 @@
                     </button>
                     @php
                         $kategoriList = $dataProduk->pluck('id_kategori')->unique()->filter()->values();
+                        // dd($kategoriList);
                     @endphp
                     @foreach ($kategoriList as $kat)
                         <button data-kategori="{{ $kat }}"
                             class="filter-btn bg-white text-text-muted px-5 py-2 rounded-xl text-sm font-semibold border border-border hover:border-primary hover:text-primary transition-all shadow-sm">
-                            {{ ucfirst($kat) }}
+                            {{ $kat }}
                         </button>
                     @endforeach
                 </div>
@@ -144,8 +145,7 @@
     </main>
 
     {{-- MODAL STRUK (Disesuaikan dengan nuansa warm) --}}
-    <div id="modal-struk"
-        class="hidden fixed inset-0 bg-[#2C2416]/80 z-[60] flex items-center justify-center backdrop-blur-sm">
+    <div id="modal-struk" class="hidden fixed inset-0 bg-[#2C2416]/80 z-60  items-center justify-center backdrop-blur-sm">
         <div class="bg-white rounded-3xl w-[380px] max-h-[90vh] overflow-hidden shadow-2xl">
             <div class="p-6 bg-surface-alt flex justify-center border-b border-dashed border-border-dark">
                 <div class="text-center">
