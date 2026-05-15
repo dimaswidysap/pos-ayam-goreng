@@ -1,18 +1,58 @@
+@php
+    use Carbon\Carbon;
+    Carbon::setLocale('id');
+@endphp
 @extends('components.master.master')
-
+@vite('resources/js/dashboard.js')
 @section('konten')
     @include('components.sidebarAdmin.sidebarAdmin')
     <section class=" w-full flex">
 
         {{-- container-struk --}}
+
+
         <section
             class="w-1/2 pt-[5.5rem] h-screen overflow-y-auto p-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+
+            <header class='w-full h-[5rem] flex justify-start items-center mb-10'>
+                <div class="flex gap-2 mb-6">
+                    @for ($i = 0; $i < 5; $i++)
+                        @php
+                            $tanggal = \Carbon\Carbon::today()->subDays($i);
+                            $nilaiDikirim = $tanggal->format('Y-m-d');
+
+                            // Ambil tanggal yang saat ini aktif dari controller/request (default hari ini)
+                            $tanggalAktif = request('tanggal', \Carbon\Carbon::today()->format('Y-m-d'));
+
+                            if ($i == 0) {
+                                $teksTombol = 'HARI INI';
+                                // Tombol hari ini mengarah ke URL bersih tanpa query string ?tanggal=
+                                $urlTarget = request()->url();
+                                $isActive = $tanggalAktif == $nilaiDikirim;
+                            } else {
+                                $teksTombol = strtoupper(
+                                    $tanggal->translatedFormat('d') . ' ' . $tanggal->translatedFormat('M'),
+                                );
+                                $urlTarget = request()->url() . '?tanggal=' . $nilaiDikirim;
+                                $isActive = $tanggalAktif == $nilaiDikirim;
+                            }
+                        @endphp
+
+                        <a href="{{ $urlTarget }}"
+                            class="px-5 py-2 text-sm font-semibold border rounded-full transition-all duration-300 inline-block
+         {{ $isActive
+             ? 'bg-primary text-white border-primary shadow-sm'
+             : 'bg-base text-text-muted border-border hover:border-primary-light hover:text-primary' }}">
+                            {{ $teksTombol }}
+                        </a>
+                    @endfor
+                </div>
+
+
+            </header>
             @forelse($transaksis as $transaksi)
                 <div
-                    class="bg-surface rounded-xl shadow-sm border border-border p-5 mb-6 relative overflow-hidden transition-all hover:shadow-md">
-
-                    {{-- Garis Aksen di atas card --}}
-                    <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                    class="card-transaksi bg-surface rounded-xl shadow-sm border border-border p-5 mb-6 relative overflow-hidden transition-all hover:shadow-md">
 
                     {{-- Header Transaksi --}}
                     <div class="flex justify-between items-start mb-4 pb-4 border-b border-dashed border-border-dark">
@@ -81,8 +121,21 @@
                                 Rp {{ number_format($transaksi->kembalian, 0, ',', '.') }}
                             </span>
                         </div>
-                    </div>
 
+                        {{-- container btn hapus transaksi --}}
+                        <div class="w-full mt-4">
+
+                            <form method='POST' action="{{ route('destroyStruk', $transaksi->id_transaksi) }}"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus Kategori ini?');">
+                                @csrf
+                                @METHOD('DELETE')
+                                <button type="submit"
+                                    class="block w-full py-2.5 text-center text-sm font-semibold text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 hover:border-red-300 transition-all duration-300 cursor-pointer">
+                                    Hapus Transaksi
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             @empty
                 {{-- Empty State --}}
@@ -94,10 +147,21 @@
                         </path>
                     </svg>
                     <p class="text-text-muted font-medium text-center text-lg">Belum ada transaksi</p>
-                    <p class="text-text-light text-sm text-center mt-1">Transaksi yang masuk akan otomatis muncul di sini.
+                    <p class="text-text-light text-sm text-center mt-1">Transaksi yang masuk pada tanggal ini akan otomatis
+                        muncul di sini.
                     </p>
                 </div>
             @endforelse
+        </section>
+
+
+        <section class="w-1/2 mt-[5rem]">
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6 border-l-4 border-green-500">
+                <p class="text-sm text-gray-500 uppercase font-semibold">Total Pendapatan</p>
+                <h3 class="text-2xl font-bold text-gray-800">
+                    Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}
+                </h3>
+            </div>
         </section>
 
     </section>

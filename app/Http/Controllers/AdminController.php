@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\models\Produk;
 use App\models\Transaksi;
+use Carbon\carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,13 +13,38 @@ class AdminController extends Controller
 {
     //
     // halama dasboard
-    public function index()
+    public function index(Request $request)
     {
-        $transaksis = Transaksi::with(['detailTransaksi.produk'])->latest('created_at')->get();
+        // Jika ada parameter tanggal di URL, gunakan itu dan simpan ke session
+        if ($request->has('tanggal')) {
+            $tanggalFilter = $request->input('tanggal');
+            session(['filter_tanggal' => $tanggalFilter]);
+        } else {
+            // Jika URL di-refresh/diakses TANPA parameter 'tanggal',
+            // kita paksa balikkan ke HARI INI (menghapus session lama)
+            $tanggalFilter = carbon::today()->format('Y-m-d');
+            session()->forget('filter_tanggal');
+        }
 
-        // dd($transaksi);
+        // 1. Ambil data transaksi beserta relasinya
+        $transaksis = Transaksi::with(['detailTransaksi.produk'])
+            ->whereDate('created_at', $tanggalFilter) // Filter berdasarkan tanggal
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('admin.dashboard', compact('transaksis'));
+        // 2. Hitung total uang masuk dari koleksi transaksis di atas
+        $totalUangMasuk = $transaksis->sum('total_harga');
+
+        // 3. Kirimkan variabel ke view
+        return view('admin.dashboard', compact('transaksis', 'totalUangMasuk'));
+    }
+
+    public function destroyStruk($id)
+    {
+
+        Transaksi::destroy($id);
+
+        return redirect()->route('index')->with('success', 'kategori berhasil dihapus');
     }
 
     public function kategori()

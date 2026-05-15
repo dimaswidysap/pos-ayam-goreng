@@ -11,7 +11,9 @@ Route::prefix('/')->group(function () {
 
 Route::prefix('admin')->group(function () {
 
+    // dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
 
     // kategori
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
@@ -50,7 +52,6 @@ Route::prefix('kasir')->group(function () {
     Route::get('/getCart', [KasirController::class, 'getCart'])->name('getCart');
     Route::get('/getMoney', [KasirController::class, 'getMoney'])->name('getMoney');
     Route::post('/cetakTransaksi', [KasirController::class, 'cetakTransaksi'])->name('cetakTransaksi');
-
-    // Akses ulang struk berdasarkan ID transaksi
     Route::get('/struk/{id_transaksi}', [KasirController::class, 'lihatStruk'])->name('lihatStruk');
+
 });
