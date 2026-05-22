@@ -31,27 +31,29 @@
             </a>
 
             {{-- Actions --}}
-            <div class="flex items-center gap-3">
-                {{-- Kasir: route belum dibuat, kosong dulu --}}
-                <a href="{{ route('kasir') }}" class="btn-kasir">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="3" width="20" height="14" rx="2" />
-                        <path d="M8 21h8M12 17v4" />
-                    </svg>
-                    Kasir
-                </a>
+           <div class="flex items-center gap-3">
 
-                {{-- Admin --}}
-                <a href="{{ route('index') }}" class="btn-admin">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a5 5 0 1 0 5 5A5 5 0 0 0 12 2z" />
-                        <path d="M20 21v-1a7 7 0 0 0-14 0v1" />
-                    </svg>
-                    Admin
-                </a>
-            </div>
+    {{-- Kasir: arahkan ke halaman login kasir --}}
+    <a href="{{ route('kasir.login') }}" class="btn-kasir">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+        </svg>
+        Kasir
+    </a>
+
+    {{-- Admin: arahkan ke halaman login admin --}}
+    <a href="{{ route('admin.login') }}" class="btn-admin">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a5 5 0 1 0 5 5A5 5 0 0 0 12 2z" />
+            <path d="M20 21v-1a7 7 0 0 0-14 0v1" />
+        </svg>
+        Admin
+    </a>
+
+</div>
 
         </div>
     </nav>

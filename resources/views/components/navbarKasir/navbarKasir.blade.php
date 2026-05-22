@@ -14,8 +14,8 @@
 
 
 
-    <a href='{{ route('home') }}'>
-        {{-- @csrf --}}
+    <form method="POST" action="{{ route('kasir.logout') }}">
+        @csrf
         <button type="submit"
             class="flex items-center gap-2 px-4 py-2 bg-red-900/30 text-red-200 border border-red-800/50 rounded-lg hover:bg-red-800 hover:text-white transition-all text-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -25,5 +25,5 @@
             </svg>
             Keluar
         </button>
-    </a>
+    </form>
 </header>

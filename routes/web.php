@@ -3,48 +3,48 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\KasirLoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/')->group(function () {
-    Route::get('/', [LandingPageController::class, 'home'])->name('home');
-});
+// ─── Landing Page ─────────────────────────────────────────────
+Route::get('/', [LandingPageController::class, 'home'])->name('home');
 
-Route::prefix('admin')->group(function () {
+// ─── Auth Admin ───────────────────────────────────────────────
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login']);
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-    // dashboard
+// ─── Auth Kasir ───────────────────────────────────────────────
+Route::get('/kasir/login', [KasirLoginController::class, 'showLoginForm'])->name('kasir.login');
+Route::post('/kasir/login', [KasirLoginController::class, 'login']);
+Route::post('/kasir/logout', [KasirLoginController::class, 'logout'])->name('kasir.logout');
+
+// ─── Routes Admin (dijaga middleware) ─────────────────────────
+Route::prefix('admin')->middleware('admin')->group(function () {
+
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
 
-    // kategori
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
-    // masuk halaman tambah katgeori
     Route::get('/tambah-kategori', [AdminController::class, 'tambahKategori'])->name('tambahKategori');
-    //   form tambah kategori
     Route::post('/simpan-kategori', [AdminController::class, 'tambahKategoriForm'])->name('tambahKategoriForm');
-    // masuk halaman kategori edit
     Route::get('/update-kategori/{id}', [AdminController::class, 'kategoriUpdate'])->name('kategoriUpdate');
-    // update kategori form
     Route::post('/updateKategoriForm/{id}', [AdminController::class, 'updateKategoriForm'])->name('updateKategoriForm');
-    // hapus kategori for,
     Route::delete('hapusKategoriForm/{id}', [AdminController::class, 'hapusKategoriForm'])->name('hapusKategoriForm');
 
-    // produk
     Route::get('/produk', [AdminController::class, 'produk'])->name('produk');
-    // halaman form produk
     Route::get('/tambah-produk', [AdminController::class, 'tambahProduk'])->name('tambahProduk');
-    // simpan produk
     Route::post('/simpan-produk', [AdminController::class, 'simpanProduk'])->name('simpanProduk');
-    // detail produk
     Route::get('/detail-produk/{id}', [AdminController::class, 'detailProduk'])->name('detailProduk');
-    // update produk (halaman)
     Route::get('/update-produk/{id}', [AdminController::class, 'updateProduk'])->name('updateProduk');
-    // form update produk
     Route::post('update/{id}', [AdminController::class, 'updateProdukForm'])->name('updateProdukForm');
-    // form hapus produk
     Route::delete('hapus/{id}', [AdminController::class, 'hapusProdukForm'])->name('hapusProdukForm');
 });
 
-Route::prefix('kasir')->group(function () {
+// ─── Routes Kasir (dijaga middleware) ─────────────────────────
+Route::prefix('kasir')->middleware('kasir')->group(function () {
+
     Route::get('/', [KasirController::class, 'kasir'])->name('kasir');
     Route::post('/addCart', [KasirController::class, 'cartAdd'])->name('cartAdd');
     Route::post('/decreaseCart', [KasirController::class, 'decreaseCart'])->name('decreaseCart');
@@ -53,5 +53,4 @@ Route::prefix('kasir')->group(function () {
     Route::get('/getMoney', [KasirController::class, 'getMoney'])->name('getMoney');
     Route::post('/cetakTransaksi', [KasirController::class, 'cetakTransaksi'])->name('cetakTransaksi');
     Route::get('/struk/{id_transaksi}', [KasirController::class, 'lihatStruk'])->name('lihatStruk');
-
 });
