@@ -19,31 +19,43 @@ class AdminLoginController extends Controller
     {
         // 1. Validasi input
         $request->validate([
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
 
-        // 2. Coba login dengan kredensial yang diberikan
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            // 3. Cek apakah user yang login memiliki role 'admin'
-            if (Auth::user()->role === 'admin') {
-                $request->session()->regenerate();
-return redirect()->route('index');
-            }
-
-            // 4. Kalau bukan admin, logout dan tolak
-            Auth::logout();
+        // Satu kali attempt saja
+        if (! Auth::attempt($credentials)) {
             return back()->withErrors([
-                'email' => 'Akun ini bukan akun admin.',
-            ]);
+                'email' => 'Email atau password salah.',
+            ])->onlyInput('email');
         }
 
-        // 5. Kalau email/password salah
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        $user = Auth::user();
+
+        if ($user->role !== 'admin') {
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'Akun ini bukan akun kasir.',
+            ])->onlyInput('email');
+        }
+
+        // Cek status aktif
+        if (! $user->status) {
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'Akun ini dinonaktifkan.',
+            ])->onlyInput('email');
+        }
+
+        // Semua lolos
+        $request->session()->regenerate();
+
+        return redirect()->route('index');
+
     }
 
     // Logout admin
@@ -52,6 +64,7 @@ return redirect()->route('index');
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('home');
     }
 }

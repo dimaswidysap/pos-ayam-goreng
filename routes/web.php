@@ -1,25 +1,21 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\KasirController;
-use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', [LandingPageController::class, 'home'])->name('home');
-
 
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-
 Route::get('/kasir/login', [KasirLoginController::class, 'showLoginForm'])->name('kasir.login');
 Route::post('/kasir/login', [KasirLoginController::class, 'login']);
 Route::post('/kasir/logout', [KasirLoginController::class, 'logout'])->name('kasir.logout');
-
 
 Route::prefix('admin')->middleware('admin')->group(function () {
 
@@ -41,8 +37,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('update/{id}', [AdminController::class, 'updateProdukForm'])->name('updateProdukForm');
     Route::delete('hapus/{id}', [AdminController::class, 'hapusProdukForm'])->name('hapusProdukForm');
 
-
-    Route::get('/users',[AdminController::class,'users'])->name('users');
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
 });
 
 Route::prefix('kasir')->middleware('kasir')->group(function () {
