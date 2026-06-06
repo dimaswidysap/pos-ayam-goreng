@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\models\Produk;
 use App\models\Transaksi;
+use App\models\User;
 use Carbon\carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,6 +16,7 @@ class AdminController extends Controller
     // halama dasboard
     public function index(Request $request)
     {
+
         // Jika ada parameter tanggal di URL, gunakan itu dan simpan ke session
         if ($request->has('tanggal')) {
             $tanggalFilter = $request->input('tanggal');
@@ -255,5 +257,16 @@ class AdminController extends Controller
         Produk::destroy($id);
 
         return redirect()->route('produk')->with('success', 'Produk berhasil dihapus');
+    }
+
+    public function users()
+    {
+
+        $dataUser = User::all();
+
+        // dd($dataUser);
+
+        return view('admin.users', compact('dataUser'));
+
     }
 }

@@ -7,20 +7,20 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
 use Illuminate\Support\Facades\Route;
 
-// ─── Landing Page ─────────────────────────────────────────────
+
 Route::get('/', [LandingPageController::class, 'home'])->name('home');
 
-// ─── Auth Admin ───────────────────────────────────────────────
+
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-// ─── Auth Kasir ───────────────────────────────────────────────
+
 Route::get('/kasir/login', [KasirLoginController::class, 'showLoginForm'])->name('kasir.login');
 Route::post('/kasir/login', [KasirLoginController::class, 'login']);
 Route::post('/kasir/logout', [KasirLoginController::class, 'logout'])->name('kasir.logout');
 
-// ─── Routes Admin (dijaga middleware) ─────────────────────────
+
 Route::prefix('admin')->middleware('admin')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
@@ -40,9 +40,11 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/update-produk/{id}', [AdminController::class, 'updateProduk'])->name('updateProduk');
     Route::post('update/{id}', [AdminController::class, 'updateProdukForm'])->name('updateProdukForm');
     Route::delete('hapus/{id}', [AdminController::class, 'hapusProdukForm'])->name('hapusProdukForm');
+
+
+    Route::get('/users',[AdminController::class,'users'])->name('users');
 });
 
-// ─── Routes Kasir (dijaga middleware) ─────────────────────────
 Route::prefix('kasir')->middleware('kasir')->group(function () {
 
     Route::get('/', [KasirController::class, 'kasir'])->name('kasir');

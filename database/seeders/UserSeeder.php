@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -15,17 +14,40 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name'     => 'Admin Utama',
-            'email'    => 'admin@toko.com',
+            'name' => 'Admin Utama',
+            'email' => 'admin@toko.com',
             'password' => Hash::make('admin123'),
-            'role'     => 'admin',
+            'status' => true,
+            'role' => 'admin',
+        ]);
+        User::create([
+            'name' => 'Admin Dimas',
+            'email' => 'dimas@toko.com',
+            'password' => Hash::make('dimas123'),
+            'status' => true,
+            'role' => 'admin',
+        ]);
+        User::create([
+            'name' => 'Admin Wiji',
+            'email' => 'wiji@toko.com',
+            'password' => Hash::make('wiji123'),
+            'status' => true,
+            'role' => 'admin',
         ]);
 
         User::create([
-            'name'     => 'Kasir Satu',
-            'email'    => 'kasir@toko.com',
+            'name' => 'Kasir Satu',
+            'email' => 'kasir@toko.com',
             'password' => Hash::make('kasir123'),
-            'role'     => 'kasir',
+            'status' => true,
+            'role' => 'kasir',
+        ]);
+        User::create([
+            'name' => 'Kasir vano',
+            'email' => 'vano@toko.com',
+            'password' => Hash::make('vano123'),
+            'status' => false,
+            'role' => 'kasir',
         ]);
     }
 }

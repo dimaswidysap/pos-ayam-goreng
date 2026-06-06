@@ -1,7 +1,4 @@
-/**
- * Ayam Goreng Widy — Header & Sidebar
- * resources/views/components/header.js
- */
+
 (function () {
     const header = document.getElementById('agw-header');
     const sidebar = document.getElementById('agw-sidebar');

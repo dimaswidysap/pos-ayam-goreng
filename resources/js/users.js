@@ -1,10 +1,6 @@
-// code mencari produk
-
-
 (function () {
-    const input = document.getElementById('kategori-search-input');
-    const rows = document.querySelectorAll('#produk-table tbody tr');
-
+    const input = document.getElementById('users-search');
+    const rows = document.querySelectorAll('.users-container');
 
     if (!input) return;
     input.addEventListener('input', function () {

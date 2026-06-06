@@ -1,0 +1,129 @@
+@auth
+    @php
+        $user = auth()->user();
+    @endphp
+@endauth
+
+@vite('resources/js/users.js')
+@extends('components.master.master')
+
+@section('konten')
+    @include('components.sidebarAdmin.sidebarAdmin')
+
+    <section class="w-full mt-40 px-6 py-4 bg-stone-50 text-stone-800 font-sans">
+
+        <div class="bg-white border border-stone-200 rounded-2xl shadow-sm overflow-hidden">
+
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-6 gap-4 border-b border-stone-100 bg-stone-50/50">
+                <div class="text-sm text-stone-600">
+                    Total <span class="font-bold text-stone-900">{{ $dataUser->count() }} User</span>
+                </div>
+                <div class="relative max-w-xs w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </span>
+                    <input id='users-search' type="text" placeholder="Cari user..."
+                        class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-stone-200 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse text-left text-sm">
+                    <thead>
+                        <tr
+                            class="border-b border-stone-200 bg-stone-50 text-xs font-semibold tracking-wider text-stone-500 uppercase">
+                            <th scope="col" class="px-6 py-4 max-w-16">ID</th>
+                            <th scope="col" class="px-6 py-4">Name</th>
+                            <th scope="col" class="px-6 py-4">Email</th>
+                            <th scope="col" class="px-6 py-4">Role</th>
+                            <th scope="col" class="px-6 py-4">Status</th>
+                            <th scope="col" class="px-6 py-4 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-stone-100">
+                        @foreach ($dataUser as $index => $user)
+                            <tr class="users-container hover:bg-stone-50/80 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-stone-600 bg-stone-100 border border-stone-200 rounded">
+                                        #{{ $index + 1 }}
+                                    </span>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-stone-900">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                        <span>{{ $user->name }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-stone-600">
+                                    {{ $user->email }}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-stone-600">
+                                    {{ $user->role }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-stone-600">
+                                    @if ($user->status === 1)
+                                        <span class="text-green-700 font-bold">Aktif</span>
+                                    @else
+                                        <span class="text-red-700 font-bold">Nonaktif</span>
+                                    @endif
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <div class="inline-flex items-center justify-center gap-2">
+                                        <button
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors shadow-sm">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-700 bg-orange-50 border border-orange-100 rounded-lg hover:bg-orange-100 transition-colors shadow-sm">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-6 bg-stone-50/50 border-t border-stone-100">
+                <p class="text-xs italic text-stone-500">
+                    Kelola data user dengan bijak untuk menjaga keamanan sistem
+                </p>
+                <p class="text-xs font-medium text-stone-600 mt-2 sm:mt-0">
+                    Ayam Goreng Widy
+                </p>
+            </div>
+
+        </div>
+
+
+        {{-- @auth
+            <p>Halo, {{ auth()->user() }}</p>
+        @else
+            <p>Kamu belum login</p>
+        @endauth
+        {{ $user }} --}}
+    </section>
+@endsection

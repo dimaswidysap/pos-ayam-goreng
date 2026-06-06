@@ -44,6 +44,6 @@ class KasirLoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('kasir.login');
+        return redirect()->route('home');
     }
 }
