@@ -10,7 +10,7 @@
 @section('konten')
     @include('components.sidebarAdmin.sidebarAdmin')
 
-    <section class="w-full mt-40 px-6 py-4 bg-stone-50 text-stone-800 font-sans">
+    <section class="w-full mt-40 px-6 py-4  text-stone-800 font-sans">
 
         <div class="bg-white border border-stone-200 rounded-2xl shadow-sm overflow-hidden">
 
@@ -19,7 +19,8 @@
                 <div class="text-sm text-stone-600">
                     Total <span class="font-bold text-stone-900">{{ $dataUser->count() }} User</span>
                 </div>
-                <div class="relative max-w-xs w-full">
+                <div class='flex gap-3'>
+                    <div class="relative max-w-xs w-full">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -28,6 +29,16 @@
                     </span>
                     <input id='users-search' type="text" placeholder="Cari user..."
                         class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-stone-200 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                </div>
+                <a href="{{ route('createUser') }}"
+                class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[10px] text-[0.85rem] font-semibold no-underline shadow-[0_3px_12px_rgba(200,118,58,0.28)] transition-all duration-200 hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-[0_5px_16px_rgba(160,90,40,0.35)] whitespace-nowrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Tambah User
+            </a>
                 </div>
             </div>
 

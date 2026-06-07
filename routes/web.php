@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
+use App\Http\Controllers\Admin\Users;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
@@ -21,14 +22,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
-
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
     Route::get('/tambah-kategori', [AdminController::class, 'tambahKategori'])->name('tambahKategori');
     Route::post('/simpan-kategori', [AdminController::class, 'tambahKategoriForm'])->name('tambahKategoriForm');
     Route::get('/update-kategori/{id}', [AdminController::class, 'kategoriUpdate'])->name('kategoriUpdate');
     Route::post('/updateKategoriForm/{id}', [AdminController::class, 'updateKategoriForm'])->name('updateKategoriForm');
     Route::delete('hapusKategoriForm/{id}', [AdminController::class, 'hapusKategoriForm'])->name('hapusKategoriForm');
-
     Route::get('/produk', [AdminController::class, 'produk'])->name('produk');
     Route::get('/tambah-produk', [AdminController::class, 'tambahProduk'])->name('tambahProduk');
     Route::post('/simpan-produk', [AdminController::class, 'simpanProduk'])->name('simpanProduk');
@@ -36,12 +35,14 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/update-produk/{id}', [AdminController::class, 'updateProduk'])->name('updateProduk');
     Route::post('update/{id}', [AdminController::class, 'updateProdukForm'])->name('updateProdukForm');
     Route::delete('hapus/{id}', [AdminController::class, 'hapusProdukForm'])->name('hapusProdukForm');
+    //
+    Route::get('/users', [Users::class, 'users'])->name('users');
+    Route::get('/createUser', [Users::class, 'createUser'])->name('createUser');
+    route::post('/addUser',[Users::class,'addUser'])->name('addUser');
 
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
 });
 
 Route::prefix('kasir')->middleware('kasir')->group(function () {
-
     Route::get('/', [KasirController::class, 'kasir'])->name('kasir');
     Route::post('/addCart', [KasirController::class, 'cartAdd'])->name('cartAdd');
     Route::post('/decreaseCart', [KasirController::class, 'decreaseCart'])->name('decreaseCart');
