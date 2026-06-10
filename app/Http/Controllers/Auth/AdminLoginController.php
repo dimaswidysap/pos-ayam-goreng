@@ -52,6 +52,7 @@ class AdminLoginController extends Controller
         }
 
         // Semua lolos
+
         $request->session()->regenerate();
 
         return redirect()->route('index');

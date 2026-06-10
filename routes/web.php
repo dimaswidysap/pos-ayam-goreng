@@ -39,6 +39,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/users', [Users::class, 'users'])->name('users');
     Route::get('/createUser', [Users::class, 'createUser'])->name('createUser');
     route::post('/addUser',[Users::class,'addUser'])->name('addUser');
+    route::get('updateUser/{id}',[Users::class,'showFormUpdate'])->name('showFormUpdate');
+    route::post('saveUpdate/{id}',[Users::class,'saveUpdate'])->name('saveUpdate');
 
 });
 

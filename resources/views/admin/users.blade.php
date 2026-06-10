@@ -68,7 +68,7 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap font-bold text-stone-900">
                                     <div class="flex items-center gap-2">
-                                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                        <span class="w-1 h-1 rounded-full bg-emerald-600"></span>
                                         <span>{{ $user->name }}</span>
                                     </div>
                                 </td>
@@ -90,7 +90,7 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="inline-flex items-center justify-center gap-2">
-                                        <button
+                                        <a href="{{ route('showFormUpdate', $user->id) }}"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors shadow-sm">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -98,7 +98,7 @@
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
                                             Edit
-                                        </button>
+                                        </a>
 
                                         <button
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-700 bg-orange-50 border border-orange-100 rounded-lg hover:bg-orange-100 transition-colors shadow-sm">

@@ -1,6 +1,9 @@
 <header
     class=" w-full h-20 bg-[#2C2416] fixed top-0 left-0 z-100 px-6 flex justify-between items-center shadow-lg border-b border-[#C8763A]/20">
-    <div class="flex items-center gap-3">
+
+
+
+     <div class="flex items-center gap-3">
         <div
             class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold border-2 border-accent">
             {{ strtoupper(substr(Auth::user()->name ?? 'K', 0, 1)) }}
@@ -11,6 +14,8 @@
             <span class="text-primary-light text-[10px] uppercase tracking-wider mt-1">Petugas Kasir</span>
         </div>
     </div>
+
+
 
 
 

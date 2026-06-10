@@ -313,20 +313,21 @@ JS ada di level yang sama: resources/views/components/header.js
 
 @vite(['resources/views/components/sidebarAdmin/header.js'])
 
-{{-- ╔══════════════════════════════════╗
-║ H E A D E R ║
-╚══════════════════════════════════╝ --}}
 <header id="agw-header">
 
     <a href="{{ route('home') }}" class="agw-brand">
         Ayam Goreng <i>Widy</i>
     </a>
 
+    <div class='flex gap-4 h-full items-center'>
+        @include('components.sidebarAdmin.profilAdmin')
+
     <button id="agw-ham" aria-label="Buka menu" aria-expanded="false" aria-controls="agw-sidebar">
         <span class="agw-bar"></span>
         <span class="agw-bar"></span>
         <span class="agw-bar"></span>
     </button>
+    </div>
 
 </header>
 
