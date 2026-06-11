@@ -41,6 +41,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     route::post('/addUser',[Users::class,'addUser'])->name('addUser');
     route::get('updateUser/{id}',[Users::class,'showFormUpdate'])->name('showFormUpdate');
     route::post('saveUpdate/{id}',[Users::class,'saveUpdate'])->name('saveUpdate');
+    route::delete('deleteUser/{id}',[Users::class,'deleteUser'])->name('deleteUser');
 
 });
 

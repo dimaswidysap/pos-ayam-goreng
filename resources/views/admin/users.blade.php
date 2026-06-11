@@ -82,9 +82,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-stone-600">
                                     @if ($user->status === 1)
-                                        <span class="text-green-700 font-bold">Aktif</span>
+                                        <span class="text-green-700/70 font-bold">Aktif</span>
                                     @else
-                                        <span class="text-red-700 font-bold">Nonaktif</span>
+                                        <span class="text-red-700/70 font-bold">Nonaktif</span>
                                     @endif
                                 </td>
 
@@ -100,7 +100,10 @@
                                             Edit
                                         </a>
 
-                                        <button
+                                        <form action="{{ route('deleteUser', $user->id) }}" method="POST">
+                                           @csrf
+                                            @METHOD('DELETE')
+                                            <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?');"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-700 bg-orange-50 border border-orange-100 rounded-lg hover:bg-orange-100 transition-colors shadow-sm">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -109,6 +112,7 @@
                                             </svg>
                                             Hapus
                                         </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

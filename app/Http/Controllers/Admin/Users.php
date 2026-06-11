@@ -14,8 +14,6 @@ class Users extends Controller
     {
         $dataUser = User::all();
 
-
-
         return view('admin.users', compact('dataUser'));
     }
 
@@ -30,8 +28,9 @@ class Users extends Controller
             [
                 'nama_user' => 'required',
                 'email_user' => 'required',
-                'role_user_update' => 'required',
+                'role_user' => 'required',
                 'pass_user' => 'required|min:6',
+                'status_user' => 'required',
             ],
             [
                 'nama_user.required' => 'Nama tidak boleh kosong',
@@ -47,62 +46,56 @@ class Users extends Controller
             'role' => $request->role_user,
             'email' => $request->email_user,
             'password' => $request->pass_user,
+            'status'=>$request->status_user
         ]);
-
 
         return redirect()->route('users');
     }
 
-    public function showFormUpdate($id){
+    public function showFormUpdate($id)
+    {
+        $userUpdate = User::findOrFail($id);
 
-    $userUpdate = User::findOrFail($id);
-
-    return view('admin.usersCRUD.updateUser',compact('userUpdate'));
+        return view('admin.usersCRUD.updateUser', compact('userUpdate'));
     }
 
-    public function saveUpdate(Request $request, $id){
+    public function saveUpdate(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-
-
-    $user = User::findOrFail($id);
-
-     $request->validate(
+        $request->validate(
             [
                 'nama_user_update' => 'required',
                 'email_user_update' => 'required',
                 'role_user_update' => 'required',
                 'status_user_update' => 'required',
-
             ],
             [
                 'nama_user_update.required' => 'Nama tidak boleh kosong',
                 'email_user_update.required' => 'Email tidak boleh kosong',
                 'role_user_update.required' => 'Role tidak boleh kosong',
                 'status_user_update.required' => 'Status tidak boleh kosong',
-
             ],
         );
 
-
-       $user->update([
-    'name'   => $request->nama_user_update,
-    'email'  => $request->email_user_update,
-    'role'   => $request->role_user_update,
-    'status' => (bool) $request->status_user_update  // ← sesuaikan
-]);
+        $user->update([
+            'name' => $request->nama_user_update,
+            'email' => $request->email_user_update,
+            'role' => $request->role_user_update,
+            'status' => (bool) $request->status_user_update, // ← sesuaikan
+        ]);
 
         // dd($user);
 
-        return redirect()->route('users')->with('success','user berhasil di edit');
+        return redirect()->route('users')->with('success', 'user berhasil di edit');
 
-
-
-
-
-    // dd($id);
-
-
-
+        // dd($id);
     }
 
+    public function deleteUser($id)
+    {
+        User::destroy($id);
+
+        return redirect()->route('users')->with('success', 'user berhasil dihapus');
+    }
 }
