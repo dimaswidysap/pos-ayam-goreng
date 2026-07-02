@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
 use App\Http\Controllers\Admin\Users;
+use App\Http\Controllers\Kasir\Orders;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
@@ -54,4 +55,8 @@ Route::prefix('kasir')->middleware('kasir')->group(function () {
     Route::get('/getMoney', [KasirController::class, 'getMoney'])->name('getMoney');
     Route::post('/cetakTransaksi', [KasirController::class, 'cetakTransaksi'])->name('cetakTransaksi');
     Route::get('/struk/{id_transaksi}', [KasirController::class, 'lihatStruk'])->name('lihatStruk');
+
+    // orders
+
+    Route::get('/orders',[Orders::class, 'ordersKasir'])->name('ordersKasir');
 });

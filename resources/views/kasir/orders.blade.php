@@ -1,18 +1,10 @@
-@php
-    use Carbon\Carbon;
-    Carbon::setLocale('id');
-@endphp
 @extends('components.master.master')
-@vite('resources/js/dashboard.js')
+
 @section('konten')
-    @include('components.sidebarAdmin.sidebarAdmin')
-    <section class=" w-full flex">
-
-        {{-- container-struk --}}
-
-
-        <section
-            class="w-1/2 pt-[5.5rem] h-screen overflow-y-auto p-4 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+    @include('components.navbarKasir.navbarKasir')
+    <section class="w-full max-w-7xl pt-[6rem]">
+         <section
+            class="w-1/2  h-screen overflow-y-auto p-4 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
             <header class='w-full h-[5rem] flex justify-start items-center mb-10'>
                 <div class="flex gap-2 mb-6">
@@ -123,7 +115,7 @@
                         </div>
 
                         {{-- container btn hapus transaksi --}}
-                        <div class="w-full mt-4">
+                        {{-- <div class="w-full mt-4">
 
                             <form method='POST' action="{{ route('destroyStruk', $transaksi->id_transaksi) }}"
                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus Kategori ini?');">
@@ -134,7 +126,7 @@
                                     Hapus Transaksi
                                 </button>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @empty
@@ -153,16 +145,5 @@
                 </div>
             @endforelse
         </section>
-
-
-        <section class="w-1/2 mt-[5rem]">
-            <div class="bg-white p-4 rounded-lg shadow-sm mb-6 border-l-4 border-green-500">
-                <p class="text-sm text-gray-500 uppercase font-semibold">Total Pendapatan</p>
-                <h3 class="text-2xl font-bold text-gray-800">
-                    Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}
-                </h3>
-            </div>
-        </section>
-
     </section>
 @endsection

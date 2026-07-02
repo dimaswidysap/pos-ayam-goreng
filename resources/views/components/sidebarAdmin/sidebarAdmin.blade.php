@@ -1,362 +1,65 @@
-{{--
-Ayam Goreng Widy — Header & Sidebar
-Cara pakai di layout: @include('components.header')
-JS ada di level yang sama: resources/views/components/header.js
---}}
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@400;500;600&display=swap');
-
-    :root {
-        --agw-primary: #C8763A;
-        --agw-primary-dk: #A05A28;
-        --agw-text: #2C2416;
-        --agw-muted: #7A6A55;
-        --agw-border: #EDE8DF;
-        --agw-surface: #FAFAF8;
-        --agw-h: 60px;
-    }
-
-    /* ── Header ──────────────────────────────────────────────── */
-    #agw-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: var(--agw-h);
-        background: #fff;
-        border-bottom: 1px solid var(--agw-border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1.4rem;
-        z-index: 900;
-        transition: box-shadow .3s;
-    }
-
-    #agw-header.agw-up {
-        box-shadow: 0 2px 20px rgba(44, 36, 22, .08);
-    }
-
-    .agw-brand {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-size: 1.15rem;
-        font-weight: 800;
-        color: var(--agw-text);
-        text-decoration: none;
-        letter-spacing: .01em;
-    }
-
-    .agw-brand i {
-        font-style: italic;
-        color: var(--agw-primary);
-    }
-
-    /* Tombol hamburger */
-    #agw-ham {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        background: var(--agw-surface);
-        border: 1.5px solid var(--agw-border);
-        border-radius: 10px;
-        cursor: pointer;
-        padding: 0;
-        transition: border-color .2s, background .2s;
-    }
-
-    #agw-ham:hover {
-        border-color: var(--agw-primary);
-        background: #FFF8F2;
-    }
-
-    .agw-bar {
-        display: block;
-        width: 18px;
-        height: 2px;
-        background: var(--agw-muted);
-        border-radius: 2px;
-        transform-origin: center;
-        transition: transform .35s cubic-bezier(.77, 0, .18, 1), opacity .2s, width .25s;
-    }
-
-    #agw-ham.open .agw-bar:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
-
-    #agw-ham.open .agw-bar:nth-child(2) {
-        opacity: 0;
-        width: 0;
-    }
-
-    #agw-ham.open .agw-bar:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* ── Overlay ─────────────────────────────────────────────── */
-    #agw-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 910;
-        background: rgba(30, 20, 10, .28);
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .35s;
-    }
-
-    #agw-overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    /* ── Sidebar ─────────────────────────────────────────────── */
-    #agw-sidebar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 272px;
-        height: 100dvh;
-        background: #fff;
-        z-index: 920;
-        display: flex;
-        flex-direction: column;
-        transform: translateX(100%);
-        transition: transform .38s cubic-bezier(.77, 0, .18, 1);
-        box-shadow: -4px 0 28px rgba(44, 36, 22, .1);
-    }
-
-    #agw-sidebar.open {
-        transform: translateX(0);
-    }
-
-    /* Sidebar head */
-    .agw-sb-top {
-        height: var(--agw-h);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1.2rem;
-        border-bottom: 1px solid var(--agw-border);
-        flex-shrink: 0;
-    }
-
-    .agw-sb-name {
-        font-family: 'Playfair Display', serif;
-        font-size: .9rem;
-        font-weight: 700;
-        color: var(--agw-text);
-    }
-
-    .agw-sb-name em {
-        font-style: italic;
-        color: var(--agw-primary);
-    }
-
-    #agw-close {
-        width: 32px;
-        height: 32px;
-        border: 1.5px solid var(--agw-border);
-        border-radius: 8px;
-        background: transparent;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--agw-muted);
-        padding: 0;
-        transition: border-color .2s, color .2s, background .2s;
-    }
-
-    #agw-close:hover {
-        border-color: var(--agw-primary);
-        color: var(--agw-primary);
-        background: #FFF8F2;
-    }
-
-    /* Nav */
-    .agw-nav {
-        flex: 1;
-        overflow-y: auto;
-        padding: .9rem .7rem;
-        display: flex;
-        flex-direction: column;
-        gap: .2rem;
-    }
-
-    .agw-nav-lbl {
-        font-family: 'DM Sans', sans-serif;
-        font-size: .63rem;
-        font-weight: 600;
-        letter-spacing: .13em;
-        text-transform: uppercase;
-        color: #B8A898;
-        padding: .55rem .8rem .25rem;
-    }
-
-    .agw-a {
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        padding: .62rem .85rem;
-        border-radius: 10px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: .88rem;
-        font-weight: 500;
-        color: var(--agw-muted);
-        text-decoration: none;
-        position: relative;
-        transition: background .18s, color .15s, transform .15s;
-    }
-
-    .agw-a:hover {
-        background: #FFF4EB;
-        color: var(--agw-primary);
-        transform: translateX(3px);
-    }
-
-    .agw-a.act {
-        background: #FFF0E4;
-        color: var(--agw-primary);
-        font-weight: 600;
-    }
-
-    .agw-a.act::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 22%;
-        bottom: 22%;
-        width: 3px;
-        border-radius: 2px;
-        background: var(--agw-primary);
-    }
-
-    .agw-a svg {
-        flex-shrink: 0;
-        opacity: .7;
-    }
-
-    .agw-a:hover svg,
-    .agw-a.act svg {
-        opacity: 1;
-    }
-
-    /* Logout */
-    .agw-foot {
-        padding: .7rem;
-        border-top: 1px solid var(--agw-border);
-    }
-
-    .agw-out {
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        padding: .62rem .85rem;
-        border-radius: 10px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: .88rem;
-        font-weight: 500;
-        color: #B05840;
-        text-decoration: none;
-        transition: background .18s, transform .15s;
-    }
-
-    .agw-out:hover {
-        background: #FFF0EE;
-        transform: translateX(3px);
-    }
-
-    .agw-out svg {
-        opacity: .8;
-    }
-
-    /* Stagger masuk */
-    #agw-sidebar.open .agw-a,
-    #agw-sidebar.open .agw-out {
-        animation: agw-in .3s ease both;
-    }
-
-    #agw-sidebar.open .agw-a:nth-child(1) {
-        animation-delay: .04s;
-    }
-
-    #agw-sidebar.open .agw-a:nth-child(2) {
-        animation-delay: .09s;
-    }
-
-    #agw-sidebar.open .agw-a:nth-child(3) {
-        animation-delay: .14s;
-    }
-
-    #agw-sidebar.open .agw-out {
-        animation-delay: .17s;
-    }
-
-    @keyframes agw-in {
-        from {
-            opacity: 0;
-            transform: translateX(14px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-</style>
-
 @vite(['resources/views/components/sidebarAdmin/header.js'])
 
-<header id="agw-header">
+<header id="agw-header" class="fixed top-0 left-0 right-0 h-[60px] bg-white border-b border-[#EDE8DF] flex items-center justify-between px-[1.4rem] z-[900] transition-shadow duration-300">
 
-    <a href="{{ route('home') }}" class="agw-brand">
-        Ayam Goreng <i>Widy</i>
+    <a href="{{ route('home') }}" class="font-['Playfair_Display'] text-[1.15rem] font-extrabold text-[#2C2416] no-underline tracking-[0.01em]">
+        Ayam Goreng <span class="italic text-[#C8763A]">Widy</span>
     </a>
 
-    <div class='flex gap-4 h-full items-center'>
+    <div class="flex gap-4 h-full items-center">
         @include('components.sidebarAdmin.profilAdmin')
 
-    <button id="agw-ham" aria-label="Buka menu" aria-expanded="false" aria-controls="agw-sidebar">
-        <span class="agw-bar"></span>
-        <span class="agw-bar"></span>
-        <span class="agw-bar"></span>
-    </button>
+        <button id="agw-ham" aria-label="Buka menu" aria-expanded="false" aria-controls="agw-sidebar"
+            class="w-10 h-10 flex flex-col items-center justify-center gap-[5px] bg-[#FAFAF8] border-[1.5px] border-[#EDE8DF] rounded-[10px] cursor-pointer p-0 transition-[border-color,background] duration-200 hover:border-[#C8763A] hover:bg-[#FFF8F2]">
+            <span class="agw-bar block w-[18px] h-[2px] bg-[#7A6A55] rounded-[2px] origin-center transition-transform duration-[350ms] ease-[cubic-bezier(.77,0,.18,1)]"></span>
+            <span class="agw-bar block w-[18px] h-[2px] bg-[#7A6A55] rounded-[2px] origin-center transition-[transform,opacity,width] duration-[350ms] ease-[cubic-bezier(.77,0,.18,1)]"></span>
+            <span class="agw-bar block w-[18px] h-[2px] bg-[#7A6A55] rounded-[2px] origin-center transition-transform duration-[350ms] ease-[cubic-bezier(.77,0,.18,1)]"></span>
+        </button>
     </div>
 
 </header>
 
+<style>
+    #agw-header.agw-up { box-shadow: 0 2px 20px rgba(44,36,22,.08); }
+    #agw-ham.open .agw-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #agw-ham.open .agw-bar:nth-child(2) { opacity: 0; width: 0; }
+    #agw-ham.open .agw-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #agw-sidebar.open .agw-a, #agw-sidebar.open .agw-out { animation: agw-in .3s ease both; }
+    #agw-sidebar.open .agw-a:nth-child(1) { animation-delay: .04s; }
+    #agw-sidebar.open .agw-a:nth-child(2) { animation-delay: .09s; }
+    #agw-sidebar.open .agw-a:nth-child(3) { animation-delay: .14s; }
+    #agw-sidebar.open .agw-out { animation-delay: .17s; }
+    @keyframes agw-in {
+        from { opacity: 0; transform: translateX(14px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+</style>
 
+<div id="agw-overlay" aria-hidden="true"
+    class="fixed inset-0 z-[910] bg-[rgba(30,20,10,0.28)] backdrop-blur-[3px] opacity-0 pointer-events-none transition-opacity duration-[350ms] [&.open]:opacity-100 [&.open]:pointer-events-auto"></div>
 
-<div id="agw-overlay" aria-hidden="true"></div>
+<aside id="agw-sidebar" aria-label="Menu navigasi"
+    class="fixed top-0 right-0 w-[272px] h-dvh bg-white z-[920] flex flex-col translate-x-full transition-transform duration-[380ms] ease-[cubic-bezier(.77,0,.18,1)] shadow-[-4px_0_28px_rgba(44,36,22,.1)] [&.open]:translate-x-0">
 
-
-<aside id="agw-sidebar" aria-label="Menu navigasi">
-
-    {{-- Top --}}
-    <div class="agw-sb-top">
-        <span class="agw-sb-name">Ayam Goreng <em>Widy</em></span>
-        <button id="agw-close" aria-label="Tutup menu">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5" stroke-linecap="round">
+    <div class="h-[60px] flex items-center justify-between px-[1.2rem] border-b border-[#EDE8DF] shrink-0">
+        <span class="font-['Playfair_Display'] text-[.9rem] font-bold text-[#2C2416]">
+            Ayam Goreng <em class="italic text-[#C8763A]">Widy</em>
+        </span>
+        <button id="agw-close" aria-label="Tutup menu"
+            class="w-8 h-8 border-[1.5px] border-[#EDE8DF] rounded-lg bg-transparent cursor-pointer flex items-center justify-center text-[#7A6A55] p-0 transition-[border-color,color,background] duration-200 hover:border-[#C8763A] hover:text-[#C8763A] hover:bg-[#FFF8F2]">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
         </button>
     </div>
 
-    {{-- Nav links --}}
-    <nav class="agw-nav">
-        <p class="agw-nav-lbl">Menu Utama</p>
+    <nav class="flex-1 overflow-y-auto py-[.9rem] px-[.7rem] flex flex-col gap-[.2rem]">
+        <p class="font-['DM_Sans'] text-[.63rem] font-semibold tracking-[.13em] uppercase text-[#B8A898] px-[.8rem] pt-[.55rem] pb-[.25rem]">Menu Utama</p>
 
-        <a href="{{ route('index') }}" class="agw-a {{ request()->routeIs('index') ? 'act' : '' }}">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <a href="{{ route('index') }}"
+            class="agw-a flex items-center gap-[.75rem] px-[.85rem] py-[.62rem] rounded-[10px] font-['DM_Sans'] text-[.88rem] font-medium text-[#7A6A55] no-underline relative transition-[background,color,transform] duration-150 hover:bg-[#FFF4EB] hover:text-[#C8763A] hover:translate-x-[3px] {{ request()->routeIs('index') ? 'bg-[#FFF0E4] text-[#C8763A] font-semibold act' : '' }}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 opacity-70">
                 <rect x="3" y="3" width="7" height="7" rx="1.5" />
                 <rect x="14" y="3" width="7" height="7" rx="1.5" />
                 <rect x="3" y="14" width="7" height="7" rx="1.5" />
@@ -365,18 +68,18 @@ JS ada di level yang sama: resources/views/components/header.js
             Dashboard
         </a>
 
-        <a href="{{ route('produk') }}" class="agw-a {{ request()->routeIs('produk') ? 'act' : '' }}">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <a href="{{ route('produk') }}"
+            class="agw-a flex items-center gap-[.75rem] px-[.85rem] py-[.62rem] rounded-[10px] font-['DM_Sans'] text-[.88rem] font-medium text-[#7A6A55] no-underline relative transition-[background,color,transform] duration-150 hover:bg-[#FFF4EB] hover:text-[#C8763A] hover:translate-x-[3px] {{ request()->routeIs('produk') ? 'bg-[#FFF0E4] text-[#C8763A] font-semibold act' : '' }}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 opacity-70">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
                 <line x1="7" y1="7" x2="7.01" y2="7" />
             </svg>
             Produk
         </a>
 
-        <a href="{{ route('kategori') }}" class="agw-a {{ request()->routeIs('kategori') ? 'act' : '' }}">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <a href="{{ route('kategori') }}"
+            class="agw-a flex items-center gap-[.75rem] px-[.85rem] py-[.62rem] rounded-[10px] font-['DM_Sans'] text-[.88rem] font-medium text-[#7A6A55] no-underline relative transition-[background,color,transform] duration-150 hover:bg-[#FFF4EB] hover:text-[#C8763A] hover:translate-x-[3px] {{ request()->routeIs('kategori') ? 'bg-[#FFF0E4] text-[#C8763A] font-semibold act' : '' }}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 opacity-70">
                 <line x1="8" y1="6" x2="21" y2="6" />
                 <line x1="8" y1="12" x2="21" y2="12" />
                 <line x1="8" y1="18" x2="21" y2="18" />
@@ -386,12 +89,12 @@ JS ada di level yang sama: resources/views/components/header.js
             </svg>
             Kategori
         </a>
-        <a href="{{ route('users') }}" class="agw-a {{ request()->routeIs('users') ? 'act' : '' }}">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+        <a href="{{ route('users') }}"
+            class="agw-a flex items-center gap-[.75rem] px-[.85rem] py-[.62rem] rounded-[10px] font-['DM_Sans'] text-[.88rem] font-medium text-[#7A6A55] no-underline relative transition-[background,color,transform] duration-150 hover:bg-[#FFF4EB] hover:text-[#C8763A] hover:translate-x-[3px] {{ request()->routeIs('users') ? 'bg-[#FFF0E4] text-[#C8763A] font-semibold act' : '' }}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 opacity-70">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
-
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
@@ -399,13 +102,12 @@ JS ada di level yang sama: resources/views/components/header.js
         </a>
     </nav>
 
-    {{-- Logout --}}
-    <div class="agw-foot">
+    <div class="p-[.7rem] border-t border-[#EDE8DF]">
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
-            <button type="submit" class="agw-out">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <button type="submit"
+                class="agw-out w-full flex items-center gap-[.75rem] px-[.85rem] py-[.62rem] rounded-[10px] font-['DM_Sans'] text-[.88rem] font-medium text-[#B05840] no-underline transition-[background,transform] duration-150 hover:bg-[#FFF0EE] hover:translate-x-[3px] bg-transparent border-0 cursor-pointer">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="opacity-80">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     <polyline points="16 17 21 12 16 7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
@@ -416,7 +118,3 @@ JS ada di level yang sama: resources/views/components/header.js
     </div>
 
 </aside>
-
-{{-- Script satu level dengan blade ini --}}
-{{--
-<script src="{{ asset('resources/views/components/sidebarAdmin/header.js') }}"></script> --}}
