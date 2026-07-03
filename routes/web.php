@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
 use App\Http\Controllers\Admin\Users;
+use App\Http\Controllers\Admin\dashboard;
 use App\Http\Controllers\Kasir\Orders;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingPageController;
@@ -21,14 +22,20 @@ Route::post('/kasir/logout', [KasirLoginController::class, 'logout'])->name('kas
 
 Route::prefix('admin')->middleware('admin')->group(function () {
 
+
+    // dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
+    route::get('/riwayat-pesanan',[dashboard::class,'riwayatPesanan'])->name('riwayat-pesanan');
+
+    // kategori makanan
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
     Route::get('/tambah-kategori', [AdminController::class, 'tambahKategori'])->name('tambahKategori');
     Route::post('/simpan-kategori', [AdminController::class, 'tambahKategoriForm'])->name('tambahKategoriForm');
     Route::get('/update-kategori/{id}', [AdminController::class, 'kategoriUpdate'])->name('kategoriUpdate');
     Route::post('/updateKategoriForm/{id}', [AdminController::class, 'updateKategoriForm'])->name('updateKategoriForm');
     Route::delete('hapusKategoriForm/{id}', [AdminController::class, 'hapusKategoriForm'])->name('hapusKategoriForm');
+    // produk
     Route::get('/produk', [AdminController::class, 'produk'])->name('produk');
     Route::get('/tambah-produk', [AdminController::class, 'tambahProduk'])->name('tambahProduk');
     Route::post('/simpan-produk', [AdminController::class, 'simpanProduk'])->name('simpanProduk');

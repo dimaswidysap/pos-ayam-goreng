@@ -45,7 +45,7 @@ class AdminController extends Controller
 
         Transaksi::destroy($id);
 
-        return redirect()->route('index')->with('success', 'kategori berhasil dihapus');
+        return redirect()->route('riwayat-pesanan')->with('success', 'Nota berhasil dihapus');
     }
 
     public function kategori()

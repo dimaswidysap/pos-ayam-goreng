@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <main class="w-full max-w-7xl m-auto relative ">
+    <main class="w-full max-w-7xl m-auto font-montserrat relative ">
         @yield('konten')
     </main>
 </body>

@@ -1,4 +1,7 @@
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+/* Ambil font Montserrat dan Instrument Sans dari Google Fonts */
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -7,43 +10,40 @@
 @source "../**/*.vue";
 
 @theme {
-    /* Default Font Sans */
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-montserrat: "Montserrat";
 
     /* Base Colors */
-    --color-base: #FFFFFF;
-    --color-surface: #FAFAF8;
-    --color-surface-alt: #F5F3EE;
+    --color-base: #ffffff;
+    --color-surface: #fafaf8;
+    --color-surface-alt: #f5f3ee;
 
     /* Brand Colors - Warm Natural Tones */
-    --color-primary: #C8763A;
+    --color-primary: #c8763a;
     /* Warm amber/fried golden */
-    --color-primary-light: #E8A96A;
+    --color-primary-light: #e8a96a;
     /* Lighter golden */
-    --color-primary-dark: #A05A28;
+    --color-primary-dark: #a05a28;
     /* Deep warm brown */
 
-    --color-secondary: #5C7A4E;
+    --color-secondary: #5c7a4e;
     /* Earthy herb green */
-    --color-secondary-light: #7FA36E;
-    --color-secondary-dark: #3F5835;
+    --color-secondary-light: #7fa36e;
+    --color-secondary-dark: #3f5835;
 
-    --color-accent: #D4A84B;
+    --color-accent: #d4a84b;
     /* Warm gold accent */
 
-    /* Neutral / Text */
-    --color-text: #2C2416;
+    --color-text: #2c2416;
     /* Deep warm brown-black */
-    --color-text-muted: #7A6A55;
+    --color-text-muted: #7a6a55;
     /* Soft warm gray */
-    --color-text-light: #AFA090;
+    --color-text-light: #afa090;
 
     /* Border */
-    --color-border: #E8E0D4;
-    --color-border-dark: #C8BC9E;
+    --color-border: #e8e0d4;
+    --color-border-dark: #c8bc9e;
 
     /* Footer */
-    --color-footer-bg: #2C2416;
-    --color-footer-text: #D4C8B0;
-
+    --color-footer-bg: #2c2416;
+    --color-footer-text: #d4c8b0;
 }
