@@ -2,9 +2,11 @@
 @vite(['resources/js/dashboard/orders.js'])
 @section('konten')
 
-    <section class=" w-full flex">
+    <section class=" w-full flex flex-wrap">
 
         {{-- container-struk --}}
+
+
 
         <section
             class="w-1/2 pt-22 h-screen overflow-y-auto p-4 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -45,7 +47,7 @@
 
             </section>
             @forelse($transaksis as $transaksi)
-                <div  id="row-{{ $transaksi->id_transaksi }}"
+                <div id="row-{{ $transaksi->id_transaksi }}"
                     class="card-transaksi bg-surface rounded-xl shadow-sm border border-border p-5 mb-6 relative overflow-hidden transition-all hover:shadow-md">
 
                     {{-- Header Transaksi --}}
@@ -120,7 +122,8 @@
                         <div class="w-full mt-4">
 
 
-                            <button class="btn-delete w-full bg-red-500 font-bold py-2 rounded-md shadow-md text-base" data-id="{{ $transaksi->id_transaksi }}">
+                            <button class="btn-delete w-full bg-red-500 font-bold py-2 rounded-md shadow-md text-base"
+                                data-id="{{ $transaksi->id_transaksi }}">
                                 Hapus
                             </button>
                         </div>
@@ -145,6 +148,9 @@
 
 
         <section class="w-1/2 mt-20">
+            <div style="display: none;" id="success-alert" class="alert alert-success flex justify-center items-center py-2 mt-10 w-full">
+                <span id="success-message"></span>
+            </div>
             <section class="w-full flex justify-end mb-5">
                 <a class="group font-poppins inline-flex items-center gap-2  text-lg font-semibold text-text-muted transition-colors duration-200 hover:text-primary"
                     href="{{ route('index') }}">
@@ -160,7 +166,7 @@
             </section>
             <div class="bg-white p-4 rounded-lg shadow-sm mb-6 border-l-4 border-primary">
                 <p class="text-sm text-gray-500 uppercase font-semibold">Total Pendapatan</p>
-                <h3  id="total-pendapatan" class="text-2xl font-bold text-gray-800">
+                <h3 id="total-pendapatan" class="text-2xl font-bold text-gray-800">
                     Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}
                 </h3>
             </div>
@@ -175,7 +181,7 @@
 
 @endsection
 <script>
-window.routes = {
-    deleteTransaksi: "{{ route('hapus-pesanan', ':id') }}"
-};
+    window.routes = {
+        deleteTransaksi: "{{ route('hapus-pesanan', ':id') }}"
+    };
 </script>

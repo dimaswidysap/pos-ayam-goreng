@@ -4,7 +4,7 @@
     @endphp
 @endauth
 
-@vite('resources/js/users.js')
+@vite(['resources/js/users.js','resources/js/admin/user/index.js'])
 @extends('components.master.master')
 
 @section('konten')
@@ -21,24 +21,24 @@
                 </div>
                 <div class='flex gap-3'>
                     <div class="relative max-w-xs w-full">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input id='users-search' type="text" placeholder="Cari user..."
+                            class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-stone-200 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                    </div>
+                    <a href="{{ route('createUser') }}"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[10px] text-[0.85rem] font-semibold no-underline shadow-[0_3px_12px_rgba(200,118,58,0.28)] transition-all duration-200 hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-[0_5px_16px_rgba(160,90,40,0.35)] whitespace-nowrap">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                    </span>
-                    <input id='users-search' type="text" placeholder="Cari user..."
-                        class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-stone-200 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-                </div>
-                <a href="{{ route('createUser') }}"
-                class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[10px] text-[0.85rem] font-semibold no-underline shadow-[0_3px_12px_rgba(200,118,58,0.28)] transition-all duration-200 hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-[0_5px_16px_rgba(160,90,40,0.35)] whitespace-nowrap">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Tambah User
-            </a>
+                        Tambah User
+                    </a>
                 </div>
             </div>
 
@@ -58,7 +58,7 @@
 
                     <tbody class="divide-y divide-stone-100">
                         @foreach ($dataUser as $index => $user)
-                            <tr class="users-container hover:bg-stone-50/80 transition-colors">
+                            <tr id="row-{{ $user->id }}" class="users-container hover:bg-stone-50/80 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
                                         class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-stone-600 bg-stone-100 border border-stone-200 rounded">
@@ -100,19 +100,17 @@
                                             Edit
                                         </a>
 
-                                        <form action="{{ route('deleteUser', $user->id) }}" method="POST">
-                                           @csrf
-                                            @METHOD('DELETE')
-                                            <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?');"
-                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-700 bg-orange-50 border border-orange-100 rounded-lg hover:bg-orange-100 transition-colors shadow-sm">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        <button data-id="{{ $user->id }}"
+                                            class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[0.78rem] font-medium border-[1.5px] border-[#FAD8D5] bg-[#FFF0EE] text-primary-dark transition-all hover:text-[#9B2318] hover:border-[#E8A8A0] hover:bg-[#FDEAE8] hover:-translate-y-0.5 whitespace-nowrap">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                <path d="M10 11v6M14 11v6" />
+                                                <path d="M9 6V4h6v2" />
                                             </svg>
                                             Hapus
                                         </button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -142,3 +140,9 @@
         {{ $user }} --}}
     </section>
 @endsection
+
+<script>
+     window.routes = {
+        deleteUser: "{{ route('hapus-user', ':id') }}"
+    };
+</script>

@@ -27,7 +27,7 @@ class Users extends Controller
         $request->validate(
             [
                 'nama_user' => 'required',
-                'email_user' => 'required',
+                'email_user' => 'required|email|unique:users,email',
                 'role_user' => 'required',
                 'pass_user' => 'required|min:6',
                 'status_user' => 'required',
@@ -38,6 +38,8 @@ class Users extends Controller
                 'role_user.required' => 'Role tidak boleh kosong',
                 'pass_user.required' => 'Password tidak boleh kosong',
                 'pass_user.min' => 'Password minimal 6 karakter',
+                'email_user.email' => 'Format email tidak valid',
+                'email_user.unique' => 'Email sudah terdaftar, silakan gunakan email lain',
             ],
         );
 
@@ -46,7 +48,7 @@ class Users extends Controller
             'role' => $request->role_user,
             'email' => $request->email_user,
             'password' => $request->pass_user,
-            'status'=>$request->status_user
+            'status' => $request->status_user,
         ]);
 
         return redirect()->route('users');

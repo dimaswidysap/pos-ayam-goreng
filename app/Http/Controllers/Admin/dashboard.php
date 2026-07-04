@@ -26,7 +26,7 @@ class dashboard extends Controller
 
         $item->delete();
 
-        $totalUangMasuk = Transaksi::whereDate('created_at','=', $tanggal)->sum('total_harga');
+        $totalUangMasuk = Transaksi::whereDate('created_at', $tanggal)->sum('total_harga');
 
         return response()->json([
             'success' => true,

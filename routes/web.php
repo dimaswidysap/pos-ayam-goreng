@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\KasirLoginController;
 use App\Http\Controllers\Admin\Users;
 use App\Http\Controllers\Admin\dashboard;
+use App\Http\Controllers\Admin\ProdukController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Kasir\Orders;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingPageController;
@@ -27,7 +30,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     // Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
     route::get('/riwayat-pesanan',[dashboard::class,'riwayatPesanan'])->name('riwayat-pesanan');
-    Route::delete('/items/{id}', [dashboard::class, 'hapusRiwayatPesanan'])->name('hapus-pesanan');
+    Route::delete('/transaksiHapus/{id}', [dashboard::class, 'hapusRiwayatPesanan'])->name('hapus-pesanan');
+    Route::delete('/produkHapus/{id}', [ProdukController::class, 'hapusProduk'])->name('hapus-produk');
+    Route::delete('/kategoriHapus/{id}', [kategoriController::class, 'hapusKategori'])->name('hapus-kategori');
+    Route::delete('/userHapus/{id}', [UsersController::class, 'hapusUser'])->name('hapus-user');
+
+
 
     // kategori makanan
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');

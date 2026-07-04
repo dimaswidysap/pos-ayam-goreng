@@ -1,5 +1,5 @@
 @extends('components.master.master')
-@vite('resources/js/kategori.js')
+@vite(['resources/js/kategori.js','resources/js/admin/kategori/index.js'])
 @section('konten')
     @include('components.sidebarAdmin.sidebarAdmin')
 
@@ -57,7 +57,7 @@
                     </thead>
                     <tbody class="divide-y divide-border">
                         @foreach ($dataKategori as $item)
-                            <tr class="transition-colors hover:bg-surface-alt/50">
+                            <tr id="row-{{ $item->id_kategori }}" class="transition-colors hover:bg-surface-alt/50">
                                 {{-- ID --}}
                                 <td class="px-6 py-4">
                                     <span
@@ -103,7 +103,7 @@
                                         </a>
 
                                         {{-- Hapus --}}
-                                        <form onsubmit="return confirm('Apakah Anda yakin ingin menghapus Kategori ini?');"
+                                        {{-- <form onsubmit="return confirm('Apakah Anda yakin ingin menghapus Kategori ini?');"
                                             action="{{ route('hapusKategoriForm', $item->id_kategori) }}" method="post"
                                             class="inline">
                                             @csrf
@@ -119,7 +119,18 @@
                                                 </svg>
                                                 Hapus
                                             </button>
-                                        </form>
+                                        </form> --}}
+                                         <button  data-id="{{ $item->id_kategori }}"
+                                            class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[0.78rem] font-medium border-[1.5px] border-[#FAD8D5] bg-[#FFF0EE] text-primary-dark transition-all hover:text-[#9B2318] hover:border-[#E8A8A0] hover:bg-[#FDEAE8] hover:-translate-y-0.5 whitespace-nowrap">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                <path d="M10 11v6M14 11v6" />
+                                                <path d="M9 6V4h6v2" />
+                                            </svg>
+                                            Hapus
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -138,3 +149,8 @@
         <script></script>
     </section>
 @endsection
+<script>
+    window.routes = {
+        deleteKategori: "{{ route('hapus-kategori', ':id') }}"
+    };
+</script>
