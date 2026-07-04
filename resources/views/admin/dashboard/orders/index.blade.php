@@ -1,6 +1,7 @@
 @extends('components.master.master')
-
+@vite(['resources/js/dashboard/orders.js'])
 @section('konten')
+
     <section class=" w-full flex">
 
         {{-- container-struk --}}
@@ -44,7 +45,7 @@
 
             </section>
             @forelse($transaksis as $transaksi)
-                <div
+                <div  id="row-{{ $transaksi->id_transaksi }}"
                     class="card-transaksi bg-surface rounded-xl shadow-sm border border-border p-5 mb-6 relative overflow-hidden transition-all hover:shadow-md">
 
                     {{-- Header Transaksi --}}
@@ -118,15 +119,10 @@
                         {{-- container btn hapus transaksi --}}
                         <div class="w-full mt-4">
 
-                            <form method='POST' action="{{ route('destroyStruk', $transaksi->id_transaksi) }}"
-                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus Kategori ini?');">
-                                @csrf
-                                @METHOD('DELETE')
-                                <button type="submit"
-                                    class="block w-full py-2.5 text-center text-sm font-semibold text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 hover:border-red-300 transition-all duration-300 cursor-pointer">
-                                    Hapus Transaksi
-                                </button>
-                            </form>
+
+                            <button class="btn-delete w-full bg-red-500 font-bold py-2 rounded-md shadow-md text-base" data-id="{{ $transaksi->id_transaksi }}">
+                                Hapus
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -164,11 +160,22 @@
             </section>
             <div class="bg-white p-4 rounded-lg shadow-sm mb-6 border-l-4 border-primary">
                 <p class="text-sm text-gray-500 uppercase font-semibold">Total Pendapatan</p>
-                <h3 class="text-2xl font-bold text-gray-800">
+                <h3  id="total-pendapatan" class="text-2xl font-bold text-gray-800">
                     Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}
                 </h3>
             </div>
         </section>
 
     </section>
+
+
+
+
+
+
 @endsection
+<script>
+window.routes = {
+    deleteTransaksi: "{{ route('hapus-pesanan', ':id') }}"
+};
+</script>

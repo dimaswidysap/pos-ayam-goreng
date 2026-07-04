@@ -25,8 +25,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
-    Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
+    // Route::delete('/destroyStruk/{id}', [AdminController::class, 'destroyStruk'])->name('destroyStruk');
     route::get('/riwayat-pesanan',[dashboard::class,'riwayatPesanan'])->name('riwayat-pesanan');
+    Route::delete('/items/{id}', [dashboard::class, 'hapusRiwayatPesanan'])->name('hapus-pesanan');
 
     // kategori makanan
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
