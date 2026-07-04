@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\TransactionService;
 use App\models\Transaksi;
+use App\models\DetailTransaksi;
 use Carbon\Carbon;
 
 class dashboard extends Controller
@@ -36,4 +37,22 @@ class dashboard extends Controller
             'totalUangMasuk' => $totalUangMasuk,
         ]);
     }
+   public function statistikBarang(Request $request)
+{
+    $tanggal = $request->input('tanggal', \Carbon\Carbon::today()->format('Y-m-d'));
+
+    $items = DetailTransaksi::whereDate('created_at', $tanggal)
+        ->with('produk') // pastikan relasi 'produk' ada di model DetailTransaksi
+        ->select('id_produk')
+        ->selectRaw('SUM(quantity) as total_terjual')
+        ->selectRaw('SUM(subtotal) as total_pendapatan')
+        ->groupBy('id_produk')
+        ->orderByDesc('total_terjual')
+        ->get();
+
+    $totalProdukTerjual = $items->sum('total_terjual');
+    $totalPendapatan = $items->sum('total_pendapatan');
+
+    return view('admin.dashboard.statistik.index', compact('items', 'totalProdukTerjual', 'totalPendapatan', 'tanggal'));
+}
 }

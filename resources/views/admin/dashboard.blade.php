@@ -7,7 +7,14 @@
 @section('konten')
     @include('components.sidebarAdmin.sidebarAdmin')
 
-        <section class="w-full pt-[7rem]">
-            <a href="{{ route('riwayat-pesanan') }}">Riwaya Transaksi</a>
-        </section>
+    <section class="w-full pt-28">
+        <ul>
+            <li>
+                <a href="{{ route('riwayat-pesanan') }}">Riwayat Transaksi</a>
+            </li>
+            <li>
+                <a href="{{ route('statistik-produk') }}">Statistik Produk</a>
+            </li>
+        </ul>
+    </section>
 @endsection
